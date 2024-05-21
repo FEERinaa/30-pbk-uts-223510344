@@ -13,6 +13,7 @@
           <p>{{ post.body }}</p>
         </li>
       </ul>
+      <slot></slot>
     </div>
   </template>
   

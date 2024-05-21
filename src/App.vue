@@ -14,7 +14,7 @@
       </Todos>
       <Posts v-if="activeComponent === 'posts'" @success="handleSuccess">
         <template v-slot:default>
-          <p>Ini konten tambahan untuk Posts melalui slot</p>
+          <p>Ini tambahan untuk Posts melalui slot</p>
         </template>
       </Posts>
     </div>
