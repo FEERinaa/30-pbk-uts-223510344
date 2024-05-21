@@ -3,11 +3,21 @@
     <header>
       <nav>
         <button @click="setActiveComponent('todos')" :class="{ active: activeComponent === 'todos' }">Todos</button>
-        <button @click="setActiveComponent('posts')" :class="{ active: activeComponent === 'posts' }">Post</button>
+        <button @click="setActiveComponent('posts')" :class="{ active: activeComponent === 'posts' }">Posts</button>
       </nav>
     </header>
-    <Todos v-if="activeComponent === 'todos'" />
-    <Posts v-if="activeComponent === 'posts'" />
+    <div class="content">
+      <Todos v-if="activeComponent === 'todos'" @success="handleSuccess">
+        <template v-slot:default>
+          <p>Ini tambahan untuk Todos melalui slot</p>
+        </template>
+      </Todos>
+      <Posts v-if="activeComponent === 'posts'" @success="handleSuccess">
+        <template v-slot:default>
+          <p>Ini konten tambahan untuk Posts melalui slot</p>
+        </template>
+      </Posts>
+    </div>
   </div>
 </template>
 
@@ -28,6 +38,10 @@ export default {
   methods: {
     setActiveComponent(component) {
       this.activeComponent = component;
+    },
+    handleSuccess(message) {
+      console.log(message); 
+      alert(message); 
     }
   }
 };

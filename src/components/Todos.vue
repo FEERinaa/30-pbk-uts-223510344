@@ -1,70 +1,79 @@
 <template>
-    <div class="todo-app">
-      <h1>To Do list</h1>
-      <form @submit.prevent="addTodo">
-        <input type="text" v-model="newTodo" placeholder="Add a task..." />
-        <button type="submit" class="primary">Add</button>
-      </form>
-      <h2>List Items</h2>
-      <div class="filter-section">
-        <button @click="filterTodos('all')" class="filter-btn">All</button>
-        <button @click="filterTodos('active')" class="filter-btn">Not Completed</button>
-        <button @click="filterTodos('completed')" class="filter-btn">Completed</button>
-      </div>
-      <ul class="todo-list">
-        <li v-for="(todo, index) in filteredTodos" :key="index">
-          <input type="checkbox" v-model="todo.done" />
-          <span :class="{ 'done': todo.done }">{{ todo.text }}</span>
-          <button @click="removeTodo(index)" class="danger">Remove</button>
-        </li>
-      </ul>
-      <footer>
-        <p>Ferinaa</p>
-      </footer>
+  <div class="todo-app">
+    <h1>To Do list</h1>
+    <form @submit.prevent="addTodo">
+      <input type="text" v-model="newTodo" placeholder="Add a task..." />
+      <button type="submit" class="primary">Add</button>
+    </form>
+    <h2>List Items</h2>
+    <div class="filter-section">
+      <button @click="filterTodos('all')" class="filter-btn">All</button>
+      <button @click="filterTodos('active')" class="filter-btn">Not Completed</button>
+      <button @click="filterTodos('completed')" class="filter-btn">Completed</button>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        newTodo: '',
-        todos: [],
-        filter: 'all'
-      };
-    },
-    methods: {
-      addTodo() {
-        if (this.newTodo.trim().length === 0) {
-          return;
-        }
-        this.todos.push({
-          text: this.newTodo,
-          done: false,
-        });
-        this.newTodo = '';
-      },
-      removeTodo(index) {
-        this.todos.splice(index, 1);
-      },
-      filterTodos(filterType) {
-        this.filter = filterType;
+    <ul class="todo-list">
+      <li v-for="(todo, index) in filteredTodos" :key="index">
+        <input type="checkbox" v-model="todo.done" />
+        <span :class="{ 'done': todo.done }">{{ todo.text }}</span>
+        <button @click="removeTodo(index)" class="danger">Remove</button>
+      </li>
+    </ul>
+    <footer>
+      <p>Ferinaa</p>
+    </footer>
+    <slot></slot>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    success: {
+      type: Function,
+      default: () => {}
+    }
+  },
+  data() {
+    return {
+      newTodo: '',
+      todos: [],
+      filter: 'all'
+    };
+  },
+  methods: {
+    addTodo() {
+      if (this.newTodo.trim().length === 0) {
+        return;
       }
+      this.todos.push({
+        text: this.newTodo,
+        done: false,
+      });
+      this.newTodo = '';
+      this.$emit('success', 'Anda berhasil'); 
     },
-    computed: {
-      filteredTodos() {
-        switch (this.filter) {
-          case 'active':
-            return this.todos.filter(todo => !todo.done);
-          case 'completed':
-            return this.todos.filter(todo => todo.done);
-          default:
-            return this.todos;
-        }
+    removeTodo(index) {
+      this.todos.splice(index, 1);
+      this.$emit('success', 'Anda berhasil'); 
+    },
+    filterTodos(filterType) {
+      this.filter = filterType;
+    }
+  },
+  computed: {
+    filteredTodos() {
+      switch (this.filter) {
+        case 'active':
+          return this.todos.filter(todo => !todo.done);
+        case 'completed':
+          return this.todos.filter(todo => todo.done);
+        default:
+          return this.todos;
       }
     }
-  };
-  </script>
+  }
+};
+</script>
   
   <style scoped>
   .todo-app {
@@ -149,7 +158,7 @@
   footer {
     text-align: center;
     font-size: 0.8rem;
-    color: #d8cdcd;
+    color: #f8f1f1;
   }
   </style>
   
