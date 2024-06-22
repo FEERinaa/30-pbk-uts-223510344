@@ -2,48 +2,18 @@
   <div>
     <header>
       <nav>
-        <button @click="setActiveComponent('todos')" :class="{ active: activeComponent === 'todos' }">Todos</button>
-        <button @click="setActiveComponent('posts')" :class="{ active: activeComponent === 'posts' }">Posts</button>
+        <router-link to="/" class="nav-link">Todos</router-link>
+        <router-link to="/posts" class="nav-link">Posts</router-link>
+        <router-link to="/albums" class="nav-link">Albums</router-link>
       </nav>
     </header>
-    <div class="content">
-      <Todos v-if="activeComponent === 'todos'" @success="handleSuccess">
-        <template v-slot:default>
-          <p>Ini tambahan untuk Todos melalui slot</p>
-        </template>
-      </Todos>
-      <Posts v-if="activeComponent === 'posts'" @success="handleSuccess">
-        <template v-slot:default>
-          <p>Ini tambahan untuk Posts melalui slot</p>
-        </template>
-      </Posts>
-    </div>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Todos from './components/Todos.vue';
-import Posts from './components/Posts.vue';
-
 export default {
-  components: {
-    Todos,
-    Posts
-  },
-  data() {
-    return {
-      activeComponent: 'todos'
-    };
-  },
-  methods: {
-    setActiveComponent(component) {
-      this.activeComponent = component;
-    },
-    handleSuccess(message) {
-      console.log(message); 
-      alert(message); 
-    }
-  }
+  name: 'App'
 };
 </script>
 
@@ -68,16 +38,17 @@ nav {
   justify-content: center;
 }
 
-nav button {
+.nav-link {
   margin: 0 10px;
   padding: 10px 20px;
   background-color: #258340;
   color: white;
+  text-decoration: none;
   border: none;
   cursor: pointer;
 }
 
-nav button.active {
+.nav-link.router-link-active {
   background-color: #555;
 }
 </style>
